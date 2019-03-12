@@ -57,7 +57,9 @@ def _create_configure_script(configureParameters):
     ctx = configureParameters.ctx
     inputs = configureParameters.inputs
 
-    root = detect_root(ctx.attr.lib_source)
+    root = ctx.attr.cmake_root
+    if root == "":
+        root = detect_root(ctx.attr.lib_source)
 
     tools = get_tools_info(ctx)
     flags = get_flags_info(ctx)
@@ -116,6 +118,7 @@ def _attrs():
         # cache_entries - the rule makes only a poor guess about the target system,
         # it is better to specify it manually.
         "generate_crosstool_file": attr.bool(mandatory = False, default = False),
+	"cmake_root": attr.string(mandatory = False, default = ""),
     })
     return attrs
 
