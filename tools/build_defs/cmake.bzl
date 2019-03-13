@@ -60,6 +60,8 @@ def _create_configure_script(configureParameters):
     root = ctx.attr.cmake_root
     if root == "":
         root = detect_root(ctx.attr.lib_source)
+    else:
+        root = ctx.attr.lib_source.files.to_list()[0].root.path + "/" + root
 
     tools = get_tools_info(ctx)
     flags = get_flags_info(ctx)
